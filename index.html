@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 5px;
+  }
+</style>
+
+<body>
+  <h2>East Java Weather Forecast</h2>
+
+  <button type="button" onclick="loadDoc()">Load Data</button>
+  <br><br>
+  <table id="demo"></table>
+
+  <script>
+    function loadDoc() {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function () {
+        myFunction(this);
+      }
+      xhttp.open("GET", "bmkg.xml", true);
+      xhttp.send();
+    }
+
+    function myFunction(xml) {
+      const xmlDoc = xml.responseXML;
+      const areas = xmlDoc.getElementsByTagName("area");
+      let table = "<tr><th>City</th><th>Temperature</th><th>Weather Condition</th></tr>";
+
+      for (let i = 0; i < areas.length; i++) {
+        const name = areas[i].getElementsByTagName("name")[0].textContent;
+        const humidity = areas[i].getElementsByTagName("value")[0].textContent;
+        const condition = areas[i].getElementsByTagName("weather")[0].textContent;
+
+        table += "<tr><td>" + city + "</td><td>" + temperature + "</td><td>" + condition + "</td></tr>";
+      }
+      document.getElementById("demo").innerHTML = table;
+    }
+  </script>
+</body>
+</html>
